@@ -12,6 +12,6 @@ export default function Home() {
 
   return (
 
-    <div>hi</div>
+    <div className="font-bold">Home Page</div>
   );
 }

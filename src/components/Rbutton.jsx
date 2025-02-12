@@ -7,13 +7,19 @@ const Rbutton = () => {
 
 
 
-  const navigateToServerComponent = (event) => {
-    router.push('/home'); // Navigate to the server-rendered page
+  async function navigateToServerComponent(event) {
     console.log(event.target.value)
+    req = fetch("/api/userdata", {
+      method: "POST",
+      body: event.target.value
+    })
+
+    router.push('/home'); // Navigate to the server-rendered page
+
   };
 
   return (
-    <button onClick={navigateToServerComponent} className="mt-4 w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700">
+    <button type="submit" onClick={navigateToServerComponent} className="mt-4 w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700">
       Save preferences
     </button>
 

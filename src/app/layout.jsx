@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider, SignedIn, SignedOut, SignIn, SignInButton, SignOutButton, SignUpButton, UserButton, } from "@clerk/nextjs";
 import custSignIn from "@/components/custSignIn";
+import DeleteAccount from "@/components/deletebutton";
 
 
 
@@ -33,20 +34,22 @@ export default function RootLayout({ children }) {
       {children}
       <div className="flex justify-end gap-10 m-4">
         <SignedOut>
-            <SignInButton mode="redirect">
-                <button className="bg-green-500 hover:bg-green-300 font-bold text-sm px-4 py-2 rounded-md">
-                      Sign In
-                  </button>
-              </SignInButton>
-          
+          <SignInButton mode="redirect">
+            <button className="bg-green-500 hover:bg-green-300 font-bold text-sm px-4 py-2 rounded-md">
+              Sign In
+            </button>
+          </SignInButton>
+
           <SignUpButton mode="redirect">
-          <button className="bg-green-500 hover:bg-green-300 font-bold text-sm px-4 py-2 rounded-md">
-                      Sign UP
-                  </button>
-            </SignUpButton>
-          </SignedOut>
-        <SignedIn><UserButton /><br></br></SignedIn>
-        
+            <button className="bg-green-500 hover:bg-green-300 font-bold text-sm px-4 py-2 rounded-md">
+              Sign UP
+            </button>
+          </SignUpButton>
+        </SignedOut>
+        <SignedIn ><UserButton /><br></br>
+          <DeleteAccount /></SignedIn>
+
+
       </div>
     </body>
   </html>

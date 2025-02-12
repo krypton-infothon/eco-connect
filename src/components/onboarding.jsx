@@ -15,7 +15,7 @@ export default function OnboardingModal() {
     const iconBoxStyle = "bg-[#d5fabe] border-s-green-950 hover:bg-green-600 rounded-md px-3.5 py-4";
     const distances = ['200m', '600m', '1000m', 'More than 1000m']
     const [comfortableWalk, setComfortableWalk] = useState(false);
-    const [isMale, setIsMale] = useState(false);
+    const [gender, setGender] = useState('');
     const [walkDistance, setWalkDistance] = useState('');
     const [comfortableRun, setComfortableRun] = useState(false);
     const [runDistance, setRunDistance] = useState('');
@@ -28,16 +28,19 @@ export default function OnboardingModal() {
     const handleCarPoolPreference = (value) => {
         setCarPoolPreference(value);
     }
+    const handleGender = (value) => {
+        setGender(value);
+    }
     return (
 
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-scroll">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-x-scroll">
             <div className="bg-[#B4E794] p-6 rounded-lg shadow-lg w-11/12 max-w-md">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">What is your gender?</h2>
                 <div className="flex justify-center gap-5 mb-4">
-                    <button onClick={() => handleClick(setIsMale)} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", isMale ? "bg-green-600" : "bg-[#d5fabe]")}>
+                    <button onClick={() => handleGender('male')} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", gender === 'male' ? "bg-green-600" : "bg-[#d5fabe]")}>
                        <FaMale />
                     </button>
-                    <button onClick={() => handleClick(setIsMale)} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", isMale ? "bg-[#d5fabe]" : "bg-green-600")}>
+                    <button onClick={() => handleGender('female')} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", gender === 'female' ?  "bg-green-600" : "bg-[#d5fabe]")}>
                        <FaFemale />
                     </button>
                 </div>

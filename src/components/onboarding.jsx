@@ -33,7 +33,7 @@ export default function OnboardingModal() {
     }
     return (
 
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-x-scroll">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-y-scroll overflow-x-hidden">
             <div className="bg-[#B4E794] p-6 rounded-lg shadow-lg w-11/12 max-w-md">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">What is your gender?</h2>
                 <div className="flex justify-center gap-5 mb-4">

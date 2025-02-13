@@ -4,13 +4,24 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #dedde5ee;
 
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #202a21;
+    --background: rgba(255, 255, 255, 0.997);
     --foreground: #ededed;
   }
 }

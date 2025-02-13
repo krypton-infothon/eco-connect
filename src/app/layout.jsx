@@ -3,7 +3,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider, SignedIn, SignedOut, SignIn, SignInButton, SignOutButton, SignUpButton, UserButton, } from "@clerk/nextjs";
 import custSignIn from "@/components/custSignIn";
+
+import DeleteAccount from "@/components/deletebutton";
+
 import React from "react";
+
 
 
 
@@ -32,6 +36,9 @@ export default function RootLayout({ children }) {
     <body style={{ colour: "white", background: "black" }}>
 
 
+     
+
+
       <div className="flex bg-green-800 justify-between">
         <div className="flex justify-start bg-green-800 p-2 px-2 py-4">
           <h1 className="text-3xl text-white font-black ">G-Go</h1>
@@ -50,9 +57,11 @@ export default function RootLayout({ children }) {
               </button>
             </SignUpButton>
           </SignedOut>
-          <SignedIn><UserButton /><br></br></SignedIn>
+          <SignedIn ><UserButton /><br></br>
+          <DeleteAccount /></SignedI
 
         </div>
+
       </div>
       {children}
     </body>

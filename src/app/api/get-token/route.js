@@ -1,14 +1,17 @@
-import { getAuth, currentUser } from "@clerk/nextjs/server";
 
+import {checkIfSessionExists} from '@/lib/checkLoggedIn.js'
+import { auth } from "@clerk/nextjs/server";
+import axios from "axios";
 export async function GET(req) {
-  const user = await currentUser();
-  const { userId, getToken } = getAuth(req);
-  if (!user) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
-  }
-
+  const {userId, getToken} = await auth()
   const token = await getToken();
-  return new Response(JSON.stringify({ token, user:user }), { status: 200 });
+  await axios.get('http://localhost:5050', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "content-type": "application/json",
+      "X-User-Id": userId,
+    },
+  }).then((response) => {console.log(response)})
 }
 
 

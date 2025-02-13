@@ -58,7 +58,7 @@ export default function RootLayout({ children }) {
             </SignUpButton>
           </SignedOut>
           <SignedIn ><UserButton /><br></br>
-          <DeleteAccount /></SignedI
+          <DeleteAccount /></SignedIn>
 
         </div>
 

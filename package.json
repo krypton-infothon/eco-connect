@@ -10,11 +10,9 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.11.2",
-
-
     "@tabler/icons-react": "^3.30.0",
     "autoprefixer": "^10.4.20",
-
+    "axios": "^1.7.9",
     "clsx": "^2.1.1",
     "firebase": "^11.3.0",
     "motion": "^12.4.2",

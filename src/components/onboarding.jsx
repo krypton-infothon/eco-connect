@@ -6,7 +6,7 @@ import Rbutton from './Rbutton';
 import clsx from 'clsx';
 import { IoMdBicycle } from "react-icons/io";
 import { MdDirectionsWalk } from "react-icons/md";
-import { FaRunning } from "react-icons/fa";
+import { FaRunning, FaMale, FaFemale } from "react-icons/fa";
 export default function OnboardingModal() {
     const onClose = () => {
         router = useRouter();
@@ -15,21 +15,51 @@ export default function OnboardingModal() {
     const iconBoxStyle = "bg-[#d5fabe] border-s-green-950 hover:bg-green-600 rounded-md px-3.5 py-4";
     const distances = ['200m', '600m', '1000m', 'More than 1000m']
     const [comfortableWalk, setComfortableWalk] = useState(false);
+    const [gender, setGender] = useState('');
     const [walkDistance, setWalkDistance] = useState('');
     const [comfortableRun, setComfortableRun] = useState(false);
     const [runDistance, setRunDistance] = useState('');
     const [comfortableCycle, setComfortableCycle] = useState(false);
     const [cycleDistance, setCycleDistance] = useState('');
+    const [carPoolPreference, setCarPoolPreference] = useState('');
     const handleClick = (target) => {
         target(value => !value);
     }
+    const handleCarPoolPreference = (value) => {
+        setCarPoolPreference(value);
+    }
+    const handleGender = (value) => {
+        setGender(value);
+    }
     return (
-        <form id="prefform">
 
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-scroll">
+
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto overflow-x-hidden">
+            <div className="overflow-y-auto relative max-h-[90vh] scrollbar-hide">
                 <div className="bg-[#B4E794] p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+                    <h2 className="text-xl font-bold text-gray-800 mb-4">What is your gender?</h2>
+                    <div className="flex justify-center gap-5 mb-4">
+                        <button onClick={() => handleGender('male')} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", gender === 'male' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                            <FaMale />
+                        </button>
+                        <button onClick={() => handleGender('female')} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", gender === 'female' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                            <FaFemale />
+                        </button>
+                    </div>
+                    <h2 className="text-sm font-bold text-gray-800 mb-4">What is your preference for Car Pooling?</h2>
+                    <div className="flex justify-center gap-5 mb-4">
+                        <button onClick={() => handleCarPoolPreference('low')} className={clsx("border-s-green-950 text-md text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", carPoolPreference === 'low' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                            <p>Low Preference</p>
+                        </button>
+                        <button onClick={() => handleCarPoolPreference('medium')} className={clsx("border-s-green-950 text-md text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", carPoolPreference === 'medium' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                            <p>Medium Preference</p>
+                        </button>
+                        <button onClick={() => handleCarPoolPreference('high')} className={clsx("border-s-green-950 text-md text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", carPoolPreference === 'high' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                            <p>High Preference</p>
+                        </button>
+                    </div>
                     <h2 className="text-xl font-bold text-gray-800 mb-4">What Are You Comfortable With</h2>
-                    <div className="flex justify-center gap-5">
+                    <div className="flex justify-center gap-5 mb-4">
                         <button onClick={() => handleClick(setComfortableCycle)} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", comfortableCycle ? "bg-green-600" : "bg-[#d5fabe]")}>
                             <IoMdBicycle />
                         </button>
@@ -100,7 +130,7 @@ export default function OnboardingModal() {
 
                     </Rbutton>
                 </div>
-            </div>
-        </form>)
+            </div> </div>
+    )
         ;
 }

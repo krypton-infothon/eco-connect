@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
 
 
   return (<ClerkProvider ><html lang="en">
-    <body style={{ colour: "white", background: "black" }}>
+    <body className='bg-gunmetal'>
 
 
      

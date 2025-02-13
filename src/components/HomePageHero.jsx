@@ -31,7 +31,7 @@ export const Hero5 = () => {
                     </div>
                     <div className="flex gap-4 flex-col">
                         <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-regular">
-                            <span className="text-spektr-cyan-50">Your Rides Our Responsibility</span>
+                            <span className="text-honeydew">Your Rides,<span className="text-primary">Our Responsibility.</span> </span>
                             <span className="relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1">
                 &nbsp;
                                 {titles.map((title, index) => (
@@ -59,14 +59,22 @@ export const Hero5 = () => {
                         </h1>
 
                         <p className="text-lg md:text-xl leading-relaxed tracking-tight text-muted-foreground max-w-2xl text-center">
-                            Managing a small business today is already tough. Avoid further
-                            complications by ditching outdated, tedious trade methods. Our
-                            goal is to streamline SMB trade, making it easier and faster than
-                            ever.
+                            Carpool, cycle, or take public transport—reduce your carbon footprint while commuting smarter!
                         </p>
                     </div>
-                    <div className="flex flex-row gap-3">
-
+                    <div className="flex flex-row gap-3 justify-center align-center gap-4">
+                        <button className="p-[3px] relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-lg" />
+                            <div className="px-8 py-2  bg-gunmetal rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+                                Get A Ride
+                            </div>
+                        </button>
+                        <button className="p-[3px] relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-lg" />
+                            <div className="px-8 py-2  bg-gunmetal rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+                                Sign Up
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -14,8 +14,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+            primary: '#4caf50',
+            secondary: '#3E7D32',
+            accent: '#FFC107',
+            gunmetal: '#263238',
+            honeydew: '#F1F8E9',
+            greenFg: '#B4E794',
+            errieBlack: '#151C1F'
       },
       animation: {
         spotlight: "spotlight 2s ease .75s 1 forwards",

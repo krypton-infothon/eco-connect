@@ -10,6 +10,8 @@ import {Stats1} from "@/components/ui/stats";
 import {BentoGrid} from "@/components/ui/bento-grid";
 import {InfiniteMovingCards} from "@/components/ui/infinite-moving-cards";
 import {Footer1} from "@/components/ui/footer";
+import {Grid} from '@/components/ui/grid'
+import {endlessBoxes} from "@/lib/contents";
 
 
 export default function Home() {
@@ -18,13 +20,12 @@ export default function Home() {
 
 
   return (
-        <div className="">
-            <Spotlight className="">
-            </Spotlight>
+        <div className="bg-gunmetal">
+            <Spotlight fill="#00FFFF" />
             <Hero5 />
             <Stats1 />
-            <BentoGrid />
-            <InfiniteMovingCards items={[{name: 'helo', quote: "hi", title: 'heys'}]}/>
+            <Grid />
+            <InfiniteMovingCards items={endlessBoxes}/>
             <Footer1 />
         </div>
 

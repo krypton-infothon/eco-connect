@@ -8,12 +8,12 @@ export const features = [
         className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
         imgClassName: "absolute right-0 bottom-0 md:w-96 h-full",
         titleClassName: "justify-center md:justify-start lg:justify-center",
-        img: '/grid/carpooling.jpeg',
+        img: '/grid/carpooling.jpg',
     },
     {
         title: 'Cycle Station Locator',
         description: 'Find available bikes nearby to make short-distance travel easier and healthier.',
-        img: '/grid/cycle station.jpg',
+        img: '/grid/cycle station2.jpg',
         header: 'Cycle Station Locator',
         id:1,
         className: "lg:col-span-2 md:col-span-3 md:row-span-2",
@@ -23,7 +23,7 @@ export const features = [
     {
         title: 'Seamless Public Transport Integration',
         description: 'Get real-time bus, metro, and cab ride updates in one app.',
-        icon: '',
+        img: '/grid/publicTransport.jpeg',
         header: 'Seamless Public Transport Integration',
         id:2,
         className: "lg:col-span-2 md:col-span-3 md:row-span-2",

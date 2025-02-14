@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import flattenColorPallete from "tailwindcss/lib/util/flattenColorPalette";
-
+import Unfonts from "unplugin-fonts"
 export default {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -45,7 +45,20 @@ export default {
       },
     },
   },
-  plugins: [addVariablesForColors],
+  plugins: [
+      addVariablesForColors,
+     Unfonts.vite({
+      custom: {
+        families: [
+          {
+            name: "Lexend",
+            local: "Lexend",
+            src: "./public/fonts/Lexend-VariableFont_wght.ttf",
+          },
+        ],
+      },
+    }),
+  ],
 };
 function addVariablesForColors({ addBase, theme }) {
   let allColors = flattenColorPallete(theme("colors"));

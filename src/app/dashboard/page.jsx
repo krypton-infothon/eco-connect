@@ -1,12 +1,12 @@
 
 import React from 'react'
-import Leaderboard from '@/components/points_table'
+import Dashboard from '@/components/ui/dash_Board'
 import { user } from '@/util/userclerk'
 const page = () => {
     return (
        
         (<div>
-            <Leaderboard ></Leaderboard>
+            <Dashboard></Dashboard>
         </div>
         )
     )

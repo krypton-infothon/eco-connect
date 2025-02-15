@@ -20,6 +20,9 @@ export async function Dashboard(body) {
                     gender: body.gender,
                     email: user.primaryEmailAddress?.emailAddress,
                     phone: user.primaryPhoneNumber?.phoneNumber
+                    lat:
+                        lng:
+                    destination:
                 }, { merge: true });
             }
         };

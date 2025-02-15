@@ -39,7 +39,6 @@ export default function RootLayout({ children }) {
 
      
 
-
       {/*<div className="flex bg-green-800 justify-between">*/}
       {/*  <div className="flex justify-start bg-green-800 p-2 px-2 py-4">*/}
       {/*    <h1 className="text-3xl text-white font-black ">G-Go</h1>*/}

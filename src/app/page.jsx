@@ -2,7 +2,8 @@
 import Image from "next/image";
 import React from 'react';
 
-import { SignedIn } from "@clerk/nextjs";
+import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk/nextjs";
+import HomePageHero from "@/components/HomePageHero";
 
 
 export default function Home() {
@@ -11,7 +12,9 @@ export default function Home() {
 
 
   return (
+        <div>
+            <HomePageHero />
+        </div>
 
-    <div className="font-bold">Home Page</div>
   );
 }

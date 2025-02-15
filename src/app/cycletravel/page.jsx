@@ -6,7 +6,7 @@ const page = () => {
     return (
        
         (<div>
-            <CyclingMap></CyclingMap>
+            <RideConfirmationPopup />
         </div>
         )
     )

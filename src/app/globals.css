@@ -7,7 +7,13 @@
   --foreground: #dedde5ee;
 
 }
-
+@theme {
+  --color-primary: #4caf50;
+  --color-secondary: #3E7D32;
+  --color-accent: #FFC107;
+  --color-gunmetal: rgb(38, 50, 56);
+  --color-honeydew: #F1F8E9;
+}
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;

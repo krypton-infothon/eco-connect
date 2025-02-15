@@ -33,10 +33,11 @@ export default function OnboardingModal() {
     }
     return (
 
+        <div className="fixed inset-0 flex items-center justify-center p-4 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1636930312719-e12a708880d5?auto=format&fit=crop&w=1920&q=80')" }}>
 
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto overflow-x-hidden">
             <div className="overflow-y-auto relative max-h-[90vh] scrollbar-hide">
-                <div className="bg-[#B4E794] p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+                <div className="bg-[#93e063] p-7 rounded-2xl shadow-lg w-11/12 max-w-md">
                     <h2 className="text-xl font-bold text-gray-800 mb-4">What is your gender?</h2>
                     <div className="flex justify-center gap-5 mb-4">
                         <button onClick={() => handleGender('male')} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", gender === 'male' ? "bg-green-600" : "bg-[#d5fabe]")}>
@@ -131,6 +132,7 @@ export default function OnboardingModal() {
                     </Rbutton>
                 </div>
             </div> </div>
+            </div>
     )
         ;
 }

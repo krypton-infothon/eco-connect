@@ -95,10 +95,10 @@ export default function Dashboard() {
         <div className="p-8 bg-gray-900 min-h-screen text-gray-100">
             {/* From and To Input Fields */}
             <div className="bg-gray-800 p-8 rounded-xl shadow-lg mb-8">
-                <h2 className="text-2xl font-bold mb-6 text-accent">Plan Your Ride</h2>
+                <h2 className="text-3xl font-black mb-6 text-center text-honeydew">Plan Your Ride</h2>
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium mb-2 text-gray-300">From</label>
+                        <label className="block text-md mb-2 text-honeydew">From</label>
                         <input
                             type="text"
                             placeholder="Enter starting location"
@@ -108,7 +108,7 @@ export default function Dashboard() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2 text-gray-300">To</label>
+                        <label className="block text-md mb-2 text-honeydew">To</label>
                         <input
                             type="text"
                             placeholder="Enter destination"

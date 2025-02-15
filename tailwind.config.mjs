@@ -17,6 +17,7 @@ export default {
             primary: '#4caf50',
             secondary: '#3E7D32',
             accent: '#FFC107',
+            lighterAccent: '#FFCC36FF',
             gunmetal: '#263238',
             honeydew: '#F1F8E9',
             greenFg: '#B4E794',

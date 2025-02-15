@@ -1,5 +1,4 @@
 
-import {checkIfSessionExists} from '@/lib/checkLoggedIn.js'
 import { auth } from "@clerk/nextjs/server";
 import axios from "axios";
 export async function GET(req) {

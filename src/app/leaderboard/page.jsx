@@ -1,11 +1,12 @@
+
 import React from 'react'
-import OnboardingModal from '@/components/onboarding'
+import Leaderboard from '@/components/points_table'
 import { user } from '@/util/userclerk'
 const page = () => {
     return (
        
         (<div>
-            <OnboardingModal></OnboardingModal>
+            <Leaderboard></Leaderboard>
         </div>
         )
     )

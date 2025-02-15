@@ -12,7 +12,7 @@ export default function OnboardingModal() {
         router = useRouter();
         router.push("/home");
     }
-    const iconBoxStyle = "bg-[#d5fabe] border-s-green-950 hover:bg-green-600 rounded-md px-3.5 py-4";
+    const iconBoxStyle = "bg-gunmetal border-s-accent hover:bg-accent rounded-md px-3.5 py-4";
     const distances = ['200m', '600m', '1000m', 'More than 1000m']
     const [comfortableWalk, setComfortableWalk] = useState(false);
     const [gender, setGender] = useState('');
@@ -33,56 +33,59 @@ export default function OnboardingModal() {
     }
     return (
 
+        <div className="fixed inset-0 flex items-center justify-center p-4 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1636930312719-e12a708880d5?auto=format&fit=crop&w=1920&q=80')" }}>
 
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto overflow-x-hidden">
             <div className="overflow-y-auto relative max-h-[90vh] scrollbar-hide">
-                <div className="bg-[#B4E794] p-6 rounded-lg shadow-lg w-11/12 max-w-md">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">What is your gender?</h2>
+                <div className="bg-errieBlack p-7 rounded-2xl shadow-lg w-11/12 max-w-md">
+                    <h2 className="text-xl font-bold text-honeydew mb-4">What is your gender?</h2>
                     <div className="flex justify-center gap-5 mb-4">
-                        <button onClick={() => handleGender('male')} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", gender === 'male' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                        <button onClick={() => handleGender('male')} className={clsx("border-s-accent text-5xl text-honeydew hover:bg-lighterAccent hover:text-white rounded-md px-3.5 py-4", gender === 'male' ? "bg-accent" : "bg-gunmetal")}>
                             <FaMale />
                         </button>
-                        <button onClick={() => handleGender('female')} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", gender === 'female' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                        <button onClick={() => handleGender('female')} className={clsx("border-s-accent text-5xl text-honeydew hover:bg-lighterAccent hover:text-white rounded-md px-3.5 py-4", gender === 'female' ? "bg-accent" : "bg-gunmetal")}>
                             <FaFemale />
                         </button>
                     </div>
-                    <h2 className="text-sm font-bold text-gray-800 mb-4">What is your preference for Car Pooling?</h2>
+                    <h2 className="text-xl font-bold text-honeydew mb-4">What is your preference for Car Pooling?</h2>
                     <div className="flex justify-center gap-5 mb-4">
-                        <button onClick={() => handleCarPoolPreference('low')} className={clsx("border-s-green-950 text-md text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", carPoolPreference === 'low' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                        <button onClick={() => handleCarPoolPreference('low')} className={clsx("border-s-accent text-md text-honeydew hover:bg-lighterAccent hover:text-white rounded-md px-3.5 py-4", carPoolPreference === 'low' ? "bg-accent" : "bg-gunmetal")}>
                             <p>Low Preference</p>
                         </button>
-                        <button onClick={() => handleCarPoolPreference('medium')} className={clsx("border-s-green-950 text-md text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", carPoolPreference === 'medium' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                        <button onClick={() => handleCarPoolPreference('medium')} className={clsx("border-s-accent text-md text-honeydew hover:bg-lighterAccent hover:text-white rounded-md px-3.5 py-4", carPoolPreference === 'medium' ? "bg-accent" : "bg-gunmetal")}>
                             <p>Medium Preference</p>
                         </button>
-                        <button onClick={() => handleCarPoolPreference('high')} className={clsx("border-s-green-950 text-md text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", carPoolPreference === 'high' ? "bg-green-600" : "bg-[#d5fabe]")}>
+                        <button onClick={() => handleCarPoolPreference('high')} className={clsx("border-s-accent text-md text-honeydew hover:bg-lighterAccent hover:text-white rounded-md px-3.5 py-4", carPoolPreference === 'high' ? "bg-accent" : "bg-gunmetal")}>
                             <p>High Preference</p>
                         </button>
                     </div>
-                    <h2 className="text-xl font-bold text-gray-800 mb-4">What Are You Comfortable With</h2>
+                    <h2 className="text-xl font-bold text-honeydew mb-4">What Are You Comfortable With</h2>
                     <div className="flex justify-center gap-5 mb-4">
-                        <button onClick={() => handleClick(setComfortableCycle)} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", comfortableCycle ? "bg-green-600" : "bg-[#d5fabe]")}>
-                            <IoMdBicycle />
-                        </button>
-                        <button onClick={() => handleClick(setComfortableWalk)} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", comfortableWalk ? "bg-green-600" : "bg-[#d5fabe]")}>
+
+                        <button onClick={() => handleClick(setComfortableWalk)} className={clsx("border-s-accent text-5xl text-honeydew hover:bg-lighterAccent hover:text-white rounded-md px-3.5 py-4", comfortableWalk ? "bg-accent" : "bg-gunmetal")}>
                             <MdDirectionsWalk />
                         </button>
-                        <button onClick={() => handleClick(setComfortableRun)} className={clsx("border-s-green-950 text-5xl text-black hover:bg-green-700 hover:text-white rounded-md px-3.5 py-4", comfortableRun ? "bg-green-600" : "bg-[#d5fabe]")}>
+                        <button onClick={() => handleClick(setComfortableRun)} className={clsx("border-s-accent text-5xl text-honeydew hover:bg-lighterAccent hover:text-white rounded-md px-3.5 py-4", comfortableRun ? "bg-accent" : "bg-gunmetal")}>
                             <FaRunning />
                         </button>
+                        <button onClick={() => handleClick(setComfortableCycle)} className={clsx("border-s-accent text-5xl text-honeydew hover:bg-lighterAccent hover:text-white rounded-md px-3.5 py-4", comfortableCycle ? "bg-accent" : "bg-gunmetal")}>
+                            <IoMdBicycle />
+                        </button>
+
                     </div>
                     <div className="flex">
                         {comfortableWalk && (
                             <div className="mt-2">
-                                <p className="text-gray-900">How far are you willing to walk?</p>
+                                <p className="text-honeydew">How far are you willing to walk?</p>
                                 {distances.map((dist) => (
-                                    <label key={dist} className="block text-gray-800">
+                                    <label key={dist} className="block text-honeydew">
                                         <input
                                             type="radio"
                                             name="walkDistance"
                                             value={dist}
                                             checked={walkDistance === dist}
                                             onChange={(e) => setWalkDistance(e.target.value)}
-                                            className="mr-2 text-gray-800"
+                                            className="mr-2 text-honeydew"
                                         />
                                         {dist}
                                     </label>
@@ -91,16 +94,16 @@ export default function OnboardingModal() {
                         )}
                         {comfortableRun && (
                             <div className="mt-2">
-                                <p className="text-gray-900">How far are you willing to run?</p>
+                                <p className="text-honeydew">How far are you willing to run?</p>
                                 {distances.map((dist) => (
-                                    <label key={dist} className="block text-gray-800">
+                                    <label key={dist} className="block text-honeydew">
                                         <input
                                             type="radio"
                                             name="runDistance"
                                             value={dist}
                                             checked={runDistance === dist}
                                             onChange={(e) => setRunDistance(e.target.value)}
-                                            className="mr-2 text-gray-800"
+                                            className="mr-2 text-honeydew"
                                         />
                                         {dist}
                                     </label>
@@ -109,16 +112,16 @@ export default function OnboardingModal() {
                         )}
                         {comfortableCycle && (
                             <div className="mt-2">
-                                <p className="text-gray-900">How far are you willing to cycle?</p>
+                                <p className="text-honeydew">How far are you willing to cycle?</p>
                                 {distances.map((dist) => (
-                                    <label key={dist} className="block text-gray-800">
+                                    <label key={dist} className="block text-honeydew">
                                         <input
                                             type="radio"
                                             name="cycleDistance"
                                             value={dist}
                                             checked={cycleDistance === dist}
                                             onChange={(e) => setCycleDistance(e.target.value)}
-                                            className="mr-2 text-gray-800"
+                                            className="mr-2 text-honeydew"
                                         />
                                         {dist}
                                     </label>
@@ -131,6 +134,7 @@ export default function OnboardingModal() {
                     </Rbutton>
                 </div>
             </div> </div>
+            </div>
     )
         ;
 }

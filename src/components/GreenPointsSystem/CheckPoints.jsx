@@ -18,7 +18,7 @@ const CheckPoints = () => {
     }
 
     return (
-        <div className="min-h-screen bg-green-50 flex items-center justify-center p-4">
+        <div >
             <div className="bg-white rounded-2xl shadow-lg w-full max-w-md transition-all duration-300 hover:shadow-xl">
                 {/* Card Header */}
                 <div className="bg-green-800 px-6 py-4 rounded-t-2xl flex items-center gap-4">

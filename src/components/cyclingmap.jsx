@@ -129,7 +129,7 @@ const CyclingMap = () => {
                     <h3>Cycle Stations</h3>
                     <ul>
                         {cycleStations.map((station) => (
-                            <li key={station.id} onClick={() => handleFindRoute(station)}>
+                            <li key={station.id} /*onClick={() => handleFindRoute(station)}*/>
                                 <img src="cycle_icon_url_here" alt="cycle" />
                                 {station.name} - {station.charge}/hour
                             </li>

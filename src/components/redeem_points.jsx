@@ -3,12 +3,16 @@
 import React from "react";
 import { useRouter } from "next/navigation"; // ✅ Correct import for App Router
 import Image from "next/image";
+import CheckPoints from "@/components/GreenPointsSystem/CheckPoints"
+import Leaderboard from "@/components/points_table"
+import MiniLeaderboard from "@/components/ui/mini-leaderboard"
+import RedeemCard from "@/components/GreenPointsSystem/redeemCard"
 
 const giftCards = [
-  { id: 1, name: "Amazon Gift Card", img: "/amazon.jpg", points: 500 },
-  { id: 2, name: "Flipkart Gift Card", img: "/flipkart.jpg", points: 700 },
-  { id: 3, name: "Starbucks Gift Card", img: "/starbucks.jpg", points: 300 },
-  { id: 4, name: "Domino's Gift Card", img: "/dominos.jpg", points: 600 },
+  { id: 1, name: "Amazon Gift Card", img: "/amazon.jpg", points: 500, description: 'hi' },
+  { id: 2, name: "Flipkart Gift Card", img: "/flipkart.jpg", points: 700, description: 'hi' },
+  { id: 3, name: "Starbucks Gift Card", img: "/starbucks.jpg", points: 300, description: 'hi' },
+  { id: 4, name: "Domino's Gift Card", img: "/dominos.jpg", points: 600, description: 'hi' },
 ];
 
 export default function RedeemPoints() {
@@ -20,30 +24,21 @@ export default function RedeemPoints() {
 
       {/* User Points & Leaderboard Section */}
       <div className="flex gap-4 mb-6">
-        <div className="bg-green-200 p-4 rounded-xl shadow-md text-center w-40">
-          <p className="text-lg text-blackfont-semibold">User Points</p>
-          <p className="text-2xl font-bold text-green-600">1200</p>
+        <div>
+            <CheckPoints></CheckPoints>
         </div>
-        <button
-          className="bg-blue-500 text-white px-6 py-3 rounded-xl shadow-md hover:bg-blue-600"
+        <button className= " flex px-4 py-2 rounded-md -mt-15 -ml-15 -mr-15" 
           onClick={() => router.push("/leaderboard")}
         >
-          Leaderboard
+          <MiniLeaderboard></MiniLeaderboard>
         </button>
       </div>
 
       {/* Gift Card Options */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {giftCards.map((card) => (
-          <div key={card.id} className="bg-white p-12 rounded-xl shadow-md text-center w-60 ">
-            <Image src={card.img} alt={card.name} width={100} height={60} className="mx-auto" />
-            <p className="text-sm font-semibold mt-2">{card.name}</p>
-            <p className="text-xs text-gray-500">Redeem for {card.points} points</p>
-            <button className="mt-2 bg-green-500 text-white px-3 py-1 rounded-md text-xs hover:bg-green-600">
-              Redeem
-            </button>
-          </div>
-        ))}
+        {giftCards.map((carditem) => {
+          return (<RedeemCard title={carditem.name} cost={carditem.points} logo={carditem.img} description={carditem.description} />)
+})}
       </div>
     </div>
   );

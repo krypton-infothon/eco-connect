@@ -5,24 +5,24 @@ import {CardContainer, CardItem} from "@/components/ui/3d-card";
 const RedeemCard = ({title, cost, logo, description}) => {
     return (
         <div >
-            <CardContainer className="inter-var">
+            <CardContainer className="inter-var w-5/15">
                 <CardItem
                     translateZ="100"
-                    className="w-full max-w-sm bg-white p-8 rounded-xl shadow-lg border border-gray-200"
+                    className="w-full max-w-sm bg-errieBlack p-8 rounded-xl shadow-lg border border-accent"
                 >
                     {/* Logo Placeholder */}
                     <CardItem translateZ="50" className="mb-6">
-                        <div className="h-24 w-24 bg-red-500 rounded-full mx-auto flex items-center justify-center">
+                        <div className="h-24 w-24 bg-black rounded-full mx-auto flex items-center justify-center">
                             {/* <span className="text-white text-xl font-bold">{logo}</span> */}
-                            <img src ={logo} className=' h-full rounded-full mx-auto flex items-center justify-center'/>
+                            <img src ={logo} alt={logo} className='w-full h-full object-cover border-6 border-black rounded-full'/>
                         </div>
                     </CardItem>
 
                     {/* Reward Details */}
                     <CardItem translateZ="80" className="text-center mb-6">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">{title}</h2>
-                        <p className="text-4xl font-extrabold text-red-500 mb-4">{cost} PTS</p>
-                        <p className="text-gray-600 mb-4">
+                        <h2 className="text-2xl font-bold text-honeydew mb-2">{title}</h2>
+                        <p className="text-4xl font-extrabold text-accent mb-4">{cost} PTS</p>
+                        <p className="text-honeydew mb-4">
                             {description}
                         </p>
                     </CardItem>
@@ -30,7 +30,7 @@ const RedeemCard = ({title, cost, logo, description}) => {
                     {/* Redeem Button */}
                     <CardItem translateZ="120" className="text-center">
                         <button
-                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full
+                            className="bg-accent hover:bg-lighterAccent text-white font-bold py-3 px-8 rounded-full
                                     transition-colors duration-200 transform hover:scale-105"
                             onClick={() => console.log('Redeem clicked')}
                         >

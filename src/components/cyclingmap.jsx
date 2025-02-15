@@ -90,24 +90,51 @@ const CyclingMap = () => {
     };
 
     return isLoaded ? (
-        <div>
-            <input
-                type="text"
-                placeholder="From"
-                value={from}
-                onChange={(e) => handleSearch(e.target.value, "from")}
-            />
-            <input
-                type="text"
-                placeholder="To"
-                value={to}
-                onChange={(e) => handleSearch(e.target.value, "to")}
-            />
-            <ul>
+   
+        <div className="bg-errieBlack min-h-screen flex flex-col items-center p-4">
+            <h2 className="text-white text-3xl font-semibold  mb-4">Plan your ride</h2>
+
+            <div className="w-full max-w-md bg-errieBlack rounded-lg p-4">
+                <div className="flex flex-col space-y-2">
+                    {/* From Input */}
+                    <div className="flex items-center bg-errieBlack text-white px-3 py-2 rounded-lg border border-accent">
+                        <span className="mr-2">📍</span>
+                        <input
+                            type="text"
+                            placeholder="From"
+                            value={from}
+                            onChange={(e) => handleSearch(e.target.value, "from")}
+                            className="bg-transparent text-white outline-none w-full"
+                        />
+                    </div>
+
+                    {/* To Input */}
+                    <div className="flex items-center bg-errieBlack text-white px-3 py-2 rounded-lg border border-accent">
+                        <span className="mr-2">⬇️</span>
+                        <input
+                            type="text"
+                            placeholder="Where to?"
+                            value={to}
+                            onChange={(e) => handleSearch(e.target.value, "to")}
+                            className="bg-transparent text-white outline-none w-full"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Search Results */}
+            <ul className="mt-4 w-full max-w-md bg-errieBlack rounded-lg p-3 text-white">
                 {searchResults.map((result) => (
-                    <li key={result.place_id} onClick={() => handleSelectLocation(result, "from")}>{result.description}</li>
-                ))}
-            </ul>
+                    <li
+                            key={result.place_id}
+                            onClick={() => handleSelectLocation(result, "from")}
+                            className="p-2 hover:bg-gray-700 cursor-pointer rounded"
+                        >
+                            {result.description}
+                        </li>
+                    ))}
+                </ul>
+            
             <GoogleMap mapContainerStyle={containerStyle} center={userLocation} zoom={14} onClick={handleMapClick}>
                 {userLocation && <Marker position={userLocation} />}
                 {selectedFrom && <Marker position={selectedFrom} label="F" />}

@@ -15,32 +15,38 @@ export default function Leaderboard() {
     const [users, setUsers] = useState(leaderboardData);
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-green-400 to-green-600 p-4">
-            <div className="bg-amber-200 rounded-xl shadow-xl w-full max-w-lg p-6">
-                <h2 className="text-2xl font-bold text-center text-green-700 mb-6">Leaderboard</h2>
+        <div className="flex justify-center items-center min-h-screen p-4" style={{
+            backgroundImage: `url('/lbbg.jpeg')`,
+            backgroundSize: 'cover', // Adjust to control image size
+            backgroundPosition: 'center', // Adjust to control image position
+            minHeight: '100vh', // Equivalent to min-h-screen
+
+        }}>
+            <div className="bg-gunmetal -xl shadow-xl w-full max-w-lg p-6 rounded-2xl">
+                <h2 className="text-2xl font-bold text-center text-honeydew mb-6">Leaderboard</h2>
 
 
                 <div className="flex items-end justify-center gap-6 mb-10 relative">
                 <div className="flex flex-col items-center">
                     <img src="./trophy3.png" alt="3rd Place" className="w-20 h-20" />
-                    <p className="text-lg font-semibold text-black ">{leaderboardData[2].name}</p>
-                    <p className='font-semibold text-black'>{leaderboardData[2].points} pts</p>
+                    <p className="text-lg font-semibold text-honeydew ">{leaderboardData[2].name}</p>
+                    <p className='font-semibold text-honeydew'>{leaderboardData[2].points} pts</p>
                 </div>
                 <div className="flex flex-col items-center">
                     <img src="./trophy2.png" alt="1st Place" className="w-28 h-28" />
-                    <p className="text-lg font-bold text-black">{leaderboardData[0].name}</p>
-                    <p className="font-semibold text-black">{leaderboardData[0].points} pts</p>
+                    <p className="text-lg font-bold text-honeydew">{leaderboardData[0].name}</p>
+                    <p className="font-semibold text-honeydew">{leaderboardData[0].points} pts</p>
                 </div>
                 <div className="flex flex-col items-center">
                     <img src="./trophy2nd.png" alt="2nd Place" className="w-24 h-24" />
-                    <p className="text-lg font-semibold text-black">{leaderboardData[1].name}</p>
-                    <p className='font-semibold text-black'>{leaderboardData[1].points} pts</p>
+                    <p className="text-lg font-semibold text-honeydew">{leaderboardData[1].name}</p>
+                    <p className='font-semibold text-honeydew'>{leaderboardData[1].points} pts</p>
                 </div>
             </div>
 
                 <div className="space-y-4">
                     {users.map((user, index) => (
-                        <div key={user.id} className="flex items-center justify-between bg-green-100 p-3 rounded-md shadow-md">
+                        <div key={user.id} className="flex items-center justify-between bg-greenFg p-3 rounded-md shadow-md">
                             <div className="flex items-center gap-4">
                                 <span className="text-lg font-semibold text-green-900">{index + 1}.</span>
                                 <span className="text-lg font-medium text-gray-800">{user.name}</span>

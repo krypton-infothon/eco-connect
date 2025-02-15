@@ -4,7 +4,7 @@ import CyclingPopUp from "@/components/cyclingPopUp";
 
 const Page = () => {
     return (
-        <div><CyclingPopUp /></div>
+        <div><CyclingMap /></div>
     )
 }
 export default Page

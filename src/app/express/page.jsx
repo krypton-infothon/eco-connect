@@ -40,7 +40,7 @@ export default function Home() {
         }
 
         fetchData();
-    }, [getToken, isLoaded]); // ✅ Only re-run when Clerk is ready
+    }, [getToken, isLoaded]); //  Only re-run when Clerk is ready
 
     return <h1>{message}</h1>;
 }

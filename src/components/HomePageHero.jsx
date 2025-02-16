@@ -1,4 +1,7 @@
 "use client"
+
+import React from 'react'
+
 import { useEffect, useMemo, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -22,6 +25,7 @@ export const Hero5 = () => {
         }, 2000);
         return () => clearTimeout(timeoutId);
     }, [titleNumber, titles]);
+
 
     return (
         <div className="w-full">

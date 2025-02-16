@@ -3,92 +3,33 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { GoogleMap, Marker, Polyline, useJsApiLoader } from "@react-google-maps/api";
 
-// ================== DUMMY DATA ==================
-const dummyDrivers = [
-    {
-        id: 1,
-        name: "John EcoRider",
-        location: { lat: 40.7128, lng: -74.0060 },
-        vehicleBrand: "Tesla Model 3",
-        vehicleNumber: "ECO-2023",
-        price: 15.50,
-        greenScore: 9.2,
-        profileIcon: "/driver1.jpg"
-    },
-    {
-        id: 2,
-        name: "Sarah GreenDrive",
-        location: { lat: 40.7282, lng: -74.0776 },
-        vehicleBrand: "Toyota Prius",
-        vehicleNumber: "GRN-456",
-        price: 12.75,
-        greenScore: 8.8,
-        profileIcon: "/driver2.jpg"
-    },
-    {
-        id: 3,
-        name: "Mike SolarRide",
-        location: { lat: 40.7589, lng: -73.9851 },
-        vehicleBrand: "Nissan Leaf",
-        vehicleNumber: "SUN-789",
-        price: 14.00,
-        greenScore: 9.5,
-        profileIcon: "/driver3.jpg"
-    }
-];
-
-const dummyLocations = [
-    {
-        place_id: "1",
-        description: "Times Square, New York, NY",
-        geometry: { location: { lat: 40.7580, lng: -73.9855 } }
-    },
-    {
-        place_id: "2",
-        description: "Central Park, New York, NY",
-        geometry: { location: { lat: 40.7829, lng: -73.9654 } }
-    },
-    {
-        place_id: "3",
-        description: "Empire State Building, New York, NY",
-        geometry: { location: { lat: 40.7484, lng: -73.9857 } }
-    }
-];
-
-const dummyRoutes = {
-    pickup: [
-        { lat: 40.7128, lng: -74.0060 },
-        { lat: 40.7282, lng: -74.0776 },
-        { lat: 40.7484, lng: -73.9857 }
-    ],
-    optimized: [
-        { lat: 40.7128, lng: -74.0060 },
-        { lat: 40.7580, lng: -73.9855 },
-        { lat: 40.7829, lng: -73.9654 }
-    ]
-};
-// ================== END DUMMY DATA ==================
 
 const containerStyle = {
     width: "100%",
     height: "100vh",
 };
 
-// ... [Keep all SVG icon components and LoadingSpinner same as before] ...
 
 const CarpoolingMap = () => {
     // State variables
     const [userLocation, setUserLocation] = useState(null);
-    const [drivers, setDrivers] = useState(dummyDrivers); // Initialize with dummy data
+    const [drivers, setDrivers] = useState([]);
     const [selectedDriver, setSelectedDriver] = useState(null);
     const [pickupRoute, setPickupRoute] = useState(null);
-    const [optimizedRoute, setOptimizedRoute] = useState(null);
+    const [redirectedRoute, setRedirectedRoute] = useState(null);
+
+// ... [Keep all SVG icon components and LoadingSpinner same as before] ...
+
+
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
     const [selectedFrom, setSelectedFrom] = useState(null);
     const [selectedTo, setSelectedTo] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
-    const [sortBy, setSortBy] = useState("green");
+
+    const [sortBy, setSortBy] = useState("green"); // Sorting state
+    const [focus, setFocus] = useState("from")
+
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -109,10 +50,20 @@ const CarpoolingMap = () => {
         }
     }, []);
 
-    // Handle search with dummy data
+
+    // Fetch available carpooling drivers
+    useEffect(() => {
+        axios.get("http://localhost:5050/api/drivers").then((response) => {
+            setDrivers(response.data);
+        });
+    }, []);
+
+    // Handle search queries for locations
     const handleSearch = async (query, type) => {
         if (!query) return;
-        setSearchResults(dummyLocations); // Use dummy location data
+        const response = await axios.get(`http://localhost:5050/api/locationSearch?query=${query}`);
+        setSearchResults(response.data);
+
     };
 
     // Select location from search
@@ -136,27 +87,105 @@ const CarpoolingMap = () => {
         }
     };
 
-    // Handle driver selection with dummy route
+
+    // Fetch and display driver's route
     const handleSelectDriver = async (driver) => {
         setSelectedDriver(driver);
-        setPickupRoute(dummyRoutes.pickup); // Use dummy pickup route
-        setOptimizedRoute(dummyRoutes.optimized); // Use dummy optimized route
+        const response = await axios.get(`http://localhost:5050/api/getDriverRoute?driverId=${driver.id}`);
+
+
+        setDriverRoute(response.data);
     };
 
-    // Handle confirmation of pickup
+    // Handle confirmation of pickup model
     const handleConfirmPickup = () => {
-        setPickupRoute(null);
-        alert("Pickup confirmed! Driver is on the way 🚗");
+        setPickupRoute(true);
     };
+
 
     // Handle redirection request
     const handleRequestRedirection = async () => {
-        setOptimizedRoute(dummyRoutes.optimized); // Use dummy optimized route
-        alert("Redirection request sent to driver! 🔄");
+        const response = await axios.post("http://localhost:5050/api/redirectDriver", {
+            driver: selectedDriver,
+            userLocation: selectedFrom,
+            destination: selectedTo,
+
+        });
+        setRedirectedRoute(response.data.legs);
+
     };
 
     // Sorting function
     const sortedDrivers = [...drivers].sort((a, b) => {
+====== b 1 0
+        if (sortBy === "green") {
+            return a.greenScore - b.greenScore;
+        } else {
+            return a.price - b.price;
+        }
+    });
+
+    return (drivers && userLocation) ? (
+        <div>
+            {/* Location Inputs */}
+            <input type="text" placeholder="From" value={from} onChange={(e) => handleSearch(e.target.value, "from")} onFocus={setFocus("from")} />
+            <input type="text" placeholder="To" value={to} onChange={(e) => handleSearch(e.target.value, "to")} onFocus={setFocus("to")} />
+
+            {/* Search Results */}
+            <ul>
+                {searchResults.map((result) => (
+                    <li key={result.place_id} onClick={() => handleSelectLocation(result, focus)}>{result.description}</li>
+                ))}
+            </ul>
+
+            {/* Map */}
+            <GoogleMap mapContainerStyle={containerStyle} center={userLocation} zoom={14} onClick={handleMapClick}>
+                {userLocation && <Marker position={userLocation} label="U" />}
+                {selectedFrom && <Marker position={selectedFrom} label="F" />}
+                {selectedTo && <Marker position={selectedTo} label="T" />}
+                {sortedDrivers.map((driver) => (
+                    <Marker key={driver.id} position={driver.location} label={driver.name.charAt(0)} onClick={() => handleSelectDriver(driver)} />
+                ))}
+                {selectedDriverRoute && <Polyline path={google.maps.geometry.encoding.decodePath(selectedDriverRoute)} options={{ strokeColor: "blue", strokeWeight: 5 }} />}
+                {pickupRoute && <Polyline path={pickupRoute} options={{ strokeColor: "blue", strokeWeight: 5 }} />}
+                {redirectedRoute.map((segment, index) => { <Polyline key={index} path={google.maps.geometry.encoding.decodePath(segment.polyline)} options={{ strokeColor: "green", strokeWeight: 5 }} /> })}
+            </GoogleMap>
+
+            {/* Sorting Dropdown */}
+            <select onChange={(e) => setSortBy(e.target.value)}>
+                <option value="green">Sort by Green Score</option>
+                <option value="price">Sort by Price</option>
+            </select>
+
+            {/* Bottom Sheet: Driver List */}
+            (from && to && <div className="bottom-sheet">
+                <h3>Available Drivers</h3>
+                <ul>
+                    {sortedDrivers.map((driver) => (
+                        <li key={driver.id} onClick={() => handleSelectDriver(driver)}>
+                            <img src={driver.profileIcon} alt="Driver" />
+                            {driver.name} - {driver.vehicleBrand} ({driver.vehicleNumber})
+                        </li>
+                    ))}
+                </ul>
+            </div>)
+
+            {/* Confirmation Bottom Sheet */}
+            {selectedDriver && (
+                <div className="bottom-sheet">
+                    <h3>Confirm Pickup</h3>
+                    <button onClick={handleConfirmPickup}>Accept Pickup Model</button>
+                    <button onClick={handleRequestRedirection}>Request Redirection</button>
+                </div>
+            )}
+        </div>
+    ) : (
+        <p>Loading...</p>
+    );
+};
+
+export default CarpoolingMap;
+aaaaaaa
         return sortBy === "green"
             ? b.greenScore - a.greenScore
             : a.price - b.price;
@@ -331,3 +360,4 @@ const CarpoolingMap = () => {
 };
 
 export default CarpoolingMap;
+

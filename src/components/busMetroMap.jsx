@@ -7,22 +7,26 @@ const containerStyle = {
     width: "100%",
     height: "100vh",
 };
-
-const CyclingMap = () => {
+// Additional Considerations:
+//     Bus Routes: Ensure that your backend API returns bus routes and other relevant information for each bus station.
+//
+//     Icons: Replace "bus_icon_url_here" with the actual URL of your bus icon.
+//
+//     Styling: Adjust the CSS and layout as needed to fit the bus station map's design.
+const BusMap = () => {
     const [userLocation, setUserLocation] = useState(null);
-    const [cycleStations, setCycleStations] = useState([]);
+    const [busStations, setBusStations] = useState([]);
     const [directions, setDirections] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
     const [selectedFrom, setSelectedFrom] = useState(null);
     const [selectedTo, setSelectedTo] = useState(null);
-    const [selectedCycleStation, setSelectedCycleStation] = useState(null);
+    const [selectedBusStation, setSelectedBusStation] = useState(null);
     const [distance, setDistance] = useState(null);
     const [duration, setDuration] = useState(null);
     const [routeSegments, setRouteSegments] = useState([]);
-    const [distanceFTC, setdistanceFTC] = useState([]);
-     const [distanceCTT, setdistanceCTT] = useState([]);
+
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries: ["places"],
@@ -42,14 +46,14 @@ const CyclingMap = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:5050/api/cycle-stations").then((response) => {
-            setCycleStations(response.data);
+        axios.get("http://localhost:5050/api/bus-stations").then((response) => {
+            setBusStations(response.data);
         });
     }, []);
 
     const handleSearch = async (query, type) => {
         if (!query) return;
-        const response = await axios.get(`http://localhost:5050/api/locationSearch?query=${query}`);
+        const response = await axios.get("http://localhost:5050/api/locationSearch?query=${query}");
         setSearchResults(response.data);
     };
 
@@ -64,27 +68,22 @@ const CyclingMap = () => {
         setSearchResults([]);
     };
 
-    const handleFindRoute = async (cycleStation) => {
+    const handleFindRoute = async (busStation) => {
         if (!selectedFrom || !selectedTo) return;
-        setSelectedCycleStation(cycleStation);
+        setSelectedBusStation(busStation);
         const response = await axios.post("http://localhost:5050/api/getRoute", {
             from: selectedFrom,
-            cycleStation: cycleStation.location,
+            busStation: busStation.route,
             to: selectedTo,
         });
-        cycleroute = response.data;
-        setDirections(cycleroute);
+        const busRoute = response.data;
+        setDirections(busRoute);
         setRouteSegments([
-            { path: cycleroute.route1.routes[0].overview_polyline.points, color: "blue" },
-            { path: cycleroute.route2.routes[0].overview_polyline.points, color: "green" },
+            { path: busRoute.route1.routes[0].overview_polyline.points, color: "blue" },
+            { path: busRoute.route2.routes[0].overview_polyline.points, color: "green" },
         ]);
-        setDistance(cycleroute.route1.routes[0].legs[0].distance.text + " + " + cycleroute.route2.routes[0].legs[0].distance.text);
-
-        setDistanceFTC(cycleroute.route1.routes[0].legs[0].distance.text)
-        setDistanceCTT(cycleroute.route2.routes[0].legs[0].distance.text)
-
-
-        setDuration(cycleroute.route2.routes[0].legs[0].duration.text);
+        setDistance(busRoute.route1.routes[0].legs[0].distance.text + " + " + busRoute.route2.routes[0].legs[0].distance.text);
+        setDuration(busRoute.route2.routes[0].legs[0].duration.text);
     };
 
     const handleMapClick = (event) => {
@@ -96,82 +95,34 @@ const CyclingMap = () => {
     };
 
     return isLoaded ? (
-======= b10
         <div>
             <input
                 type="text"
                 placeholder="From"
                 value={from}
                 onChange={(e) => handleSearch(e.target.value, "from")}
-
-            />
+                onFocus={() => { setFocus("to") }} />
             <input
                 type="text"
                 placeholder="To"
                 value={to}
                 onChange={(e) => handleSearch(e.target.value, "to")}
+                onKeyDown={(e) => { if (e.key == 'Enter') { handleSelectLocation(result, "from") } }}
             />
             <ul>
                 {searchResults.map((result) => (
-                    <li key={result.place_id} onClick={() => handleSelectLocation(result, "from")}>{result.description}</li>
+                    <li key={result.place_id} onClick={() => handleSelectLocation(result, "from")} >{result.description}</li>
                 ))}
             </ul>
-=======
-   
-        <div className="bg-errieBlack min-h-screen flex flex-col items-center p-4">
-            <h2 className="text-white text-3xl font-semibold  mb-4">Plan your ride</h2>
-
-            <div className="w-full max-w-md bg-errieBlack rounded-lg p-4">
-                <div className="flex flex-col space-y-2">
-                    {/* From Input */}
-                    <div className="flex items-center bg-errieBlack text-white px-3 py-2 rounded-lg border border-accent">
-                        <span className="mr-2">📍</span>
-                        <input
-                            type="text"
-                            placeholder="From"
-                            value={from}
-                            onChange={(e) => handleSearch(e.target.value, "from")}
-                            className="bg-transparent text-white outline-none w-full"
-                        />
-                    </div>
-
-                    {/* To Input */}
-                    <div className="flex items-center bg-errieBlack text-white px-3 py-2 rounded-lg border border-accent">
-                        <span className="mr-2">⬇️</span>
-                        <input
-                            type="text"
-                            placeholder="Where to?"
-                            value={to}
-                            onChange={(e) => handleSearch(e.target.value, "to")}
-                            className="bg-transparent text-white outline-none w-full"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* Search Results */}
-            <ul className="mt-4 w-full max-w-md bg-errieBlack rounded-lg p-3 text-white">
-                {searchResults.map((result) => (
-                    <li
-                            key={result.place_id}
-                            onClick={() => handleSelectLocation(result, "from")}
-                            className="p-2 hover:bg-gray-700 cursor-pointer rounded"
-                        >
-                            {result.description}
-                        </li>
-                    ))}
-                </ul>
-            
-========= main
             <GoogleMap mapContainerStyle={containerStyle} center={userLocation} zoom={14} onClick={handleMapClick}>
                 {userLocation && <Marker position={userLocation} />}
                 {selectedFrom && <Marker position={selectedFrom} label="F" />}
                 {selectedTo && <Marker position={selectedTo} label="T" />}
-                {cycleStations.map((station) => (
+                {busStations.map((station) => (
                     <Marker
                         key={station.id}
                         position={station.location}
-                        icon={{ url: "cycle_icon_url_here" }}
+                        icon={{ url: "bus_icon_url_here" }}
                         onClick={() => handleFindRoute(station)}
                     />
                 ))}
@@ -179,18 +130,14 @@ const CyclingMap = () => {
                     <Polyline key={index} path={segment.path} options={{ strokeColor: segment.color, strokeWeight: 5 }} />
                 ))}
             </GoogleMap>
-            {selectedCycleStation && (
+            {selectedBusStation && (
                 <div className="bottom-sheet">
-                    <h3>Cycle Stations</h3>
+                    <h3>Bus Stations</h3>
                     <ul>
-                        {cycleStations.map((station) => (
-
+                        {busStations.map((station) => (
                             <li key={station.id} onClick={() => handleFindRoute(station)}>
-
-                
-
-                                <img src="cycle_icon_url_here" alt="cycle" />
-                                {station.name} - {station.charge}/hour
+                                <img src="bus_icon_url_here" alt="bus" />
+                                {station.name} - {station.routes.join(", ")}
                             </li>
                         ))}
                     </ul>
@@ -204,4 +151,4 @@ const CyclingMap = () => {
     );
 };
 
-export default CyclingMap;
+export default BusMap;

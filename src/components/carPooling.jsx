@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { GoogleMap, Marker, Polyline, useJsApiLoader } from "@react-google-maps/api";
@@ -13,13 +14,14 @@ const CarpoolingMap = () => {
     const [drivers, setDrivers] = useState([]);
     const [selectedDriver, setSelectedDriver] = useState(null);
     const [pickupRoute, setPickupRoute] = useState(null);
-    const [optimizedRoute, setOptimizedRoute] = useState(null);
+    const [redirectedRoute, setRedirectedRoute] = useState(null);
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
     const [selectedFrom, setSelectedFrom] = useState(null);
     const [selectedTo, setSelectedTo] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
     const [sortBy, setSortBy] = useState("green"); // Sorting state
+    const [focus, setFocus] = useState("from")
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -79,24 +81,26 @@ const CarpoolingMap = () => {
     const handleSelectDriver = async (driver) => {
         setSelectedDriver(driver);
         const response = await axios.get(`http://localhost:5050/api/getDriverRoute?driverId=${driver.id}`);
-        setPickupRoute(response.data.pickupRoute);
-        setOptimizedRoute(response.data.optimizedRoute);
+
+
+        setDriverRoute(response.data);
     };
 
     // Handle confirmation of pickup model
     const handleConfirmPickup = () => {
-        setPickupRoute(null);
+        setPickupRoute(true);
     };
+
 
     // Handle redirection request
     const handleRequestRedirection = async () => {
         const response = await axios.post("http://localhost:5050/api/redirectDriver", {
-            driverId: selectedDriver.id,
+            driver: selectedDriver,
             userLocation: selectedFrom,
             destination: selectedTo,
 
         });
-        setOptimizedRoute(response.data.optimizedRoute);
+        setRedirectedRoute(response.data.legs);
     };
 
     // Sorting function
@@ -108,16 +112,16 @@ const CarpoolingMap = () => {
         }
     });
 
-    return isLoaded ? (
+    return (drivers && userLocation) ? (
         <div>
             {/* Location Inputs */}
-            <input type="text" placeholder="From" value={from} onChange={(e) => handleSearch(e.target.value, "from")} />
-            <input type="text" placeholder="To" value={to} onChange={(e) => handleSearch(e.target.value, "to")} />
+            <input type="text" placeholder="From" value={from} onChange={(e) => handleSearch(e.target.value, "from")} onFocus={setFocus("from")} />
+            <input type="text" placeholder="To" value={to} onChange={(e) => handleSearch(e.target.value, "to")} onFocus={setFocus("to")} />
 
             {/* Search Results */}
             <ul>
                 {searchResults.map((result) => (
-                    <li key={result.place_id} onClick={() => handleSelectLocation(result, "from")}>{result.description}</li>
+                    <li key={result.place_id} onClick={() => handleSelectLocation(result, focus)}>{result.description}</li>
                 ))}
             </ul>
 
@@ -129,8 +133,9 @@ const CarpoolingMap = () => {
                 {sortedDrivers.map((driver) => (
                     <Marker key={driver.id} position={driver.location} label={driver.name.charAt(0)} onClick={() => handleSelectDriver(driver)} />
                 ))}
+                {selectedDriverRoute && <Polyline path={google.maps.geometry.encoding.decodePath(selectedDriverRoute)} options={{ strokeColor: "blue", strokeWeight: 5 }} />}
                 {pickupRoute && <Polyline path={pickupRoute} options={{ strokeColor: "blue", strokeWeight: 5 }} />}
-                {optimizedRoute && <Polyline path={optimizedRoute} options={{ strokeColor: "green", strokeWeight: 5 }} />}
+                {redirectedRoute.map((segment, index) => { <Polyline key={index} path={google.maps.geometry.encoding.decodePath(segment.polyline)} options={{ strokeColor: "green", strokeWeight: 5 }} /> })}
             </GoogleMap>
 
             {/* Sorting Dropdown */}
@@ -140,7 +145,7 @@ const CarpoolingMap = () => {
             </select>
 
             {/* Bottom Sheet: Driver List */}
-            <div className="bottom-sheet">
+            (from && to && <div className="bottom-sheet">
                 <h3>Available Drivers</h3>
                 <ul>
                     {sortedDrivers.map((driver) => (
@@ -150,7 +155,7 @@ const CarpoolingMap = () => {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </div>)
 
             {/* Confirmation Bottom Sheet */}
             {selectedDriver && (

@@ -7,8 +7,11 @@ const containerStyle = {
     width: "100%",
     height: "100vh",
 };
-
-const CyclingMap = () => {
+const Integrated = () => {
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+        libraries: ["places"],
+    });
     const [userLocation, setUserLocation] = useState(null);
     const [cycleStations, setCycleStations] = useState([]);
     const [directions, setDirections] = useState(null);
@@ -21,11 +24,13 @@ const CyclingMap = () => {
     const [distance, setDistance] = useState(null);
     const [duration, setDuration] = useState(null);
     const [routeSegments, setRouteSegments] = useState([]);
+    const [redirectedRoute, setRedirectedRoute] = useState(null);
+    const [drivers, setDrivers] = useState([]);
+    const [selectedDriver, setSelectedDriver] = useState(null);
+    const [pickupRoute, setPickupRoute] = useState(null);
 
-    const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-        libraries: ["places"],
-    });
+    const [sortBy, setSortBy] = useState("green"); // Sorting state
+    const [focus, setFocus] = useState("from")
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -41,7 +46,7 @@ const CyclingMap = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:5050/api/cycle-stations").then((response) => {
+        axios.get("http:/localhost:5050/api/cycle-stations").then((response) => {
             setCycleStations(response.data);
         });
     }, []);
@@ -62,7 +67,11 @@ const CyclingMap = () => {
         }
         setSearchResults([]);
     };
-
+    useEffect(() => {
+        axios.get("http://localhost:5050/api/cycle-stations").then((response) => {
+            setCycleStations(response.data);
+        });
+    }, []);
     const handleFindRoute = async (cycleStation) => {
         if (!selectedFrom || !selectedTo) return;
         setSelectedCycleStation(cycleStation);
@@ -78,10 +87,40 @@ const CyclingMap = () => {
             { path: cycleroute.route2.routes[0].overview_polyline.points, color: "green" },
         ]);
         setDistance(cycleroute.route1.routes[0].legs[0].distance.text + " + " + cycleroute.route2.routes[0].legs[0].distance.text);
-        setDistanceFTC(cycleroute.route1.routes[0].legs[0].distance.text)
-        setDistanceCTT(cycleroute.route2.routes[0].legs[0].distance.text)
-
         setDuration(cycleroute.route2.routes[0].legs[0].duration.text);
+
+        // Fetch and display driver's route
+        const handleSelectDriver = async (driver) => {
+            setSelectedDriver(driver);
+            const response = await axios.get(`http://localhost:5050/api/getDriverRoute?driverId=${driver.id}`);
+            setPickupRoute(response.data.pickupRoute);
+            setDriverRoute(response.data.optimizedRoute);
+        };
+
+        // Handle confirmation of pickup model
+        const handleConfirmPickup = () => {
+            setPickupRoute(null);
+        };
+
+        // Handle redirection request
+        const handleRequestRedirection = async () => {
+            const response = await axios.post("http://localhost:5050/api/redirectDriver", {
+                driverId: selectedDriver.id,
+                userLocation: selectedFrom,
+                destination: selectedTo,
+
+            });
+            setOptimizedRoute(response.data.optimizedRoute);
+        };
+
+        // Sorting function
+        const sortedDrivers = [...drivers].sort((a, b) => {
+            if (sortBy === "green") {
+                return a.greenScore - b.greenScore;
+            } else {
+                return a.price - b.price;
+            }
+        });
     };
 
     const handleMapClick = (event) => {
@@ -92,14 +131,14 @@ const CyclingMap = () => {
         }
     };
 
-    return isLoaded ? (
+
+    return (isLoaded ? (
         <div>
             <input
                 type="text"
                 placeholder="From"
                 value={from}
                 onChange={(e) => handleSearch(e.target.value, "from")}
-
             />
             <input
                 type="text"
@@ -125,8 +164,12 @@ const CyclingMap = () => {
                     />
                 ))}
                 {routeSegments.map((segment, index) => (
-                    <Polyline key={index} path={segment.path} options={{ strokeColor: segment.color, strokeWeight: 5 }} />
+                    <Polyline key={index} path={segment.path} options={{ strokeColor: segment.color, strokeWeight: 5 }} />))}
+                {sortedDrivers.map((driver) => (
+                    <Marker key={driver.id} position={driver.location} label={driver.name.charAt(0)} onClick={() => handleSelectDriver(driver)} />
                 ))}
+                {pickupRoute && <Polyline path={pickupRoute} options={{ strokeColor: "blue", strokeWeight: 5 }} />}
+                {optimizedRoute && <Polyline path={optimizedRoute} options={{ strokeColor: "green", strokeWeight: 5 }} />}
             </GoogleMap>
             {selectedCycleStation && (
                 <div className="bottom-sheet">
@@ -146,7 +189,9 @@ const CyclingMap = () => {
         </div>
     ) : (
         <p>Loading...</p>
-    );
+    ));
 };
 
-export default CyclingMap;
+
+
+export default Integrated;

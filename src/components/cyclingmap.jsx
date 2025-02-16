@@ -21,7 +21,8 @@ const CyclingMap = () => {
     const [distance, setDistance] = useState(null);
     const [duration, setDuration] = useState(null);
     const [routeSegments, setRouteSegments] = useState([]);
-
+    const [distanceFTC, setdistanceFTC] = useState([]);
+     const [distanceCTT, setdistanceCTT] = useState([]);
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries: ["places"],
@@ -78,8 +79,10 @@ const CyclingMap = () => {
             { path: cycleroute.route2.routes[0].overview_polyline.points, color: "green" },
         ]);
         setDistance(cycleroute.route1.routes[0].legs[0].distance.text + " + " + cycleroute.route2.routes[0].legs[0].distance.text);
+
         setDistanceFTC(cycleroute.route1.routes[0].legs[0].distance.text)
         setDistanceCTT(cycleroute.route2.routes[0].legs[0].distance.text)
+
 
         setDuration(cycleroute.route2.routes[0].legs[0].duration.text);
     };
@@ -93,6 +96,7 @@ const CyclingMap = () => {
     };
 
     return isLoaded ? (
+======= b10
         <div>
             <input
                 type="text"
@@ -112,6 +116,53 @@ const CyclingMap = () => {
                     <li key={result.place_id} onClick={() => handleSelectLocation(result, "from")}>{result.description}</li>
                 ))}
             </ul>
+=======
+   
+        <div className="bg-errieBlack min-h-screen flex flex-col items-center p-4">
+            <h2 className="text-white text-3xl font-semibold  mb-4">Plan your ride</h2>
+
+            <div className="w-full max-w-md bg-errieBlack rounded-lg p-4">
+                <div className="flex flex-col space-y-2">
+                    {/* From Input */}
+                    <div className="flex items-center bg-errieBlack text-white px-3 py-2 rounded-lg border border-accent">
+                        <span className="mr-2">📍</span>
+                        <input
+                            type="text"
+                            placeholder="From"
+                            value={from}
+                            onChange={(e) => handleSearch(e.target.value, "from")}
+                            className="bg-transparent text-white outline-none w-full"
+                        />
+                    </div>
+
+                    {/* To Input */}
+                    <div className="flex items-center bg-errieBlack text-white px-3 py-2 rounded-lg border border-accent">
+                        <span className="mr-2">⬇️</span>
+                        <input
+                            type="text"
+                            placeholder="Where to?"
+                            value={to}
+                            onChange={(e) => handleSearch(e.target.value, "to")}
+                            className="bg-transparent text-white outline-none w-full"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Search Results */}
+            <ul className="mt-4 w-full max-w-md bg-errieBlack rounded-lg p-3 text-white">
+                {searchResults.map((result) => (
+                    <li
+                            key={result.place_id}
+                            onClick={() => handleSelectLocation(result, "from")}
+                            className="p-2 hover:bg-gray-700 cursor-pointer rounded"
+                        >
+                            {result.description}
+                        </li>
+                    ))}
+                </ul>
+            
+========= main
             <GoogleMap mapContainerStyle={containerStyle} center={userLocation} zoom={14} onClick={handleMapClick}>
                 {userLocation && <Marker position={userLocation} />}
                 {selectedFrom && <Marker position={selectedFrom} label="F" />}
@@ -133,7 +184,11 @@ const CyclingMap = () => {
                     <h3>Cycle Stations</h3>
                     <ul>
                         {cycleStations.map((station) => (
+
                             <li key={station.id} onClick={() => handleFindRoute(station)}>
+
+                
+
                                 <img src="cycle_icon_url_here" alt="cycle" />
                                 {station.name} - {station.charge}/hour
                             </li>
